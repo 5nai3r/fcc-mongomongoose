@@ -18,7 +18,7 @@ const arrayOfPeople = [
 ];
 
 const createAndSavePerson = (done) => {
-  var janeFonda = new Person({ name: "Babybom", age: 22, favoriteFoods: ["pizza", "cheese"] });
+  let janeFonda = new Person({ name: "Babybom", age: 22, favoriteFoods: ["pizza", "cheese"] });
 
   janeFonda.save(function(err, data) {
     if (err) return console.error(err);
@@ -59,7 +59,13 @@ const findPersonById = (personId, done) => {
 const findEditThenSave = (personId, done) => {
   const foodToAdd = "hamburger";
 
-  done(null /*, data*/);
+  Person.findById(personId, (err, person) => {
+  person.favoriteFoods.push(foodToAdd)
+  person.save((err, data) => {
+    if (err) return console.error(err);
+    done(null, data)
+  });  
+})
 };
 
 const findAndUpdate = (personName, done) => {
